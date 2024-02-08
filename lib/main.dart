@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/components/loading_screen.dart';
-import 'package:flutter_weather_app/pages/weather_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -15,11 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(bodyLarge: GoogleFonts.roboto())
-      ) ,
-      home: LoadingScreen(),
+      theme: ThemeData(textTheme: TextTheme(bodyLarge: GoogleFonts.roboto())),
+      home: const LoadingScreen(),
     );
   }
 }
-
