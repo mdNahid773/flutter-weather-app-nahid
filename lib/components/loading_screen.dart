@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/components/geo_location.dart';
 import 'package:flutter_weather_app/components/network.dart';
 import 'package:flutter_weather_app/pages/weather_page.dart';
 //import '../services/network.dart';
@@ -8,6 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 //Location location = Location();
 
 class LoadingScreen extends StatefulWidget {
+  const LoadingScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LoadingScreenState();
@@ -15,6 +16,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  var weatherData = '';
   @override
   void initState() {
     super.initState();
@@ -23,8 +25,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocationData() async {
-    var weatherData = await getCityWeather("");
+    await getCityWeather("");
+  }
 
+  //method to get Dhaka weather
+  Future<dynamic> getCityWeather(String cityName) async {
+    //Location location = Location();
+    const String weatherUrl =
+        "https://api.openweathermap.org/data/2.5/weather?lat=23.7104&lon=90.4074&appid=5a18fc6e52dc7342ee016a20e95a106c&units=metric";
+    NetworkHelper networkHelper = NetworkHelper(weatherUrl);
+
+    weatherData = await networkHelper.getData();
+    return weatherData;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -35,23 +51,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         },
       ),
     );
-  }
-
-  //method to get Dhaka weather
-  Future<dynamic> getCityWeather(String cityName) async {
-    //Location location = Location();
-    final String weatherUrl =
-        // "https://api.openweathermap.org/data/2.5/weather?q=dhaka&appid=5a18fc6e52dc7342ee016a20e95a106c&units=metric";
-      "https://api.openweathermap.org/data/2.5/weather?lat=23.7104&lon=90.4074&appid=5a18fc6e52dc7342ee016a20e95a106c&units=metric";
-      //"https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=5a18fc6e52dc7342ee016a20e95a106c&units=metric";
-    NetworkHelper networkHelper = NetworkHelper('$weatherUrl');
-
-    var weatherData = await networkHelper.getData();
-    return weatherData;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         // decoration: BoxDecoration(
@@ -64,9 +63,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         //     ),
         //   ),
         // ),
-        child: Center(
+        child: const Center(
           child: SpinKitDoubleBounce(
-            color: const Color.fromARGB(255, 255, 176, 176),
+            color: Color.fromARGB(255, 255, 176, 176),
             size: 100.0,
           ),
         ),
